@@ -1,8 +1,13 @@
 package com.oop.informationsystem.GUI;
 
+import com.oop.informationsystem.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 public class AdminController {
     public AnchorPane studentAdd;
@@ -17,14 +22,52 @@ public class AdminController {
     public AnchorPane mainPage;
 
     public void onClickCreateProf(ActionEvent event) {
-        
+        if (!new File(professorID.getText()).exists()) {
+            Person prof = new Professor(professorID.getText(), professorPW.getText());
+            try {
+                FileOutputStream fileOutputStream
+                        = new FileOutputStream("database/" + professorID.getText() + ".txt");
+                ObjectOutputStream objectOutputStream
+                        = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(prof);
+                fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void onClickCreateFaculty(ActionEvent event) {
+        if (!new File(facultyID.getText()).exists()) {
+            Person faculty = new Faculty(facultyID.getText(), facultyPW.getText());
+            try {
+                FileOutputStream fileOutputStream
+                        = new FileOutputStream("database/" + facultyID.getText() + ".txt");
+                ObjectOutputStream objectOutputStream
+                        = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(faculty);
+                fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
     public void onClickCreateStudent(ActionEvent event) {
+        if (!new File(studentID.getText()).exists()) {
+            Person student = new Student(studentID.getText(), studentPW.getText());
+            try {
+                FileOutputStream fileOutputStream
+                        = new FileOutputStream("database/" + studentID.getText() + ".txt");
+                ObjectOutputStream objectOutputStream
+                        = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(student);
+                fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
