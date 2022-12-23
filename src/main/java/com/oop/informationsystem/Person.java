@@ -7,7 +7,38 @@ import java.util.List;
 
 public class Person implements Serializable {
     String id;
+    String name;
+    String surname;
     String password;
+    List<String> notes;
+    List<Class> todaysClasses;
+
+
+    public Person(String id, String password, String name, String surname) {
+        this.id = id;
+        this.password = password;
+        notes = new ArrayList<>();
+        todaysClasses = new ArrayList<Class>();
+    }
+
+    public void logOut() {
+
+    }
+
+    public void addNote(String note) {
+        //Return true on success
+        notes.add(note);
+
+    }
+
+    public LocalDate getDateAndTime() {
+        LocalDate currentDate = LocalDate.now();
+        return currentDate;
+    }
+
+    public List<Class> getTodaysClasses() {
+        return todaysClasses;
+    }
 
     public String getId() {
         return id;
@@ -23,30 +54,5 @@ public class Person implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Person(String id, String password) {
-        this.id = id;
-        this.password = password;
-    }
-
-    public void logOut() {
-
-    }
-
-    public boolean addNote(String note) {
-        //Return true on success
-        boolean result = true;
-        return result;
-    }
-
-    public LocalDate getDateAndTime() {
-        LocalDate currentDate = LocalDate.now();
-        return currentDate;
-    }
-
-    public List<Class> getTodaysClasses() {
-        List<Class> todaysClasses = new ArrayList<Class>();
-        return todaysClasses;
     }
 }

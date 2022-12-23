@@ -1,5 +1,6 @@
 package com.oop.informationsystem.GUI;
 
+import com.oop.informationsystem.Admin;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        //Create admin on every start
+        Admin admin = new Admin("administrator", "123456", "Serhan", "Desteli");
+        admin.createNewAdmin(admin);
         stage.getIcons().add(new Image("https://img.icons8.com/ios-glyphs/30/null/student-center.png"));
         fxmlLoader = new FXMLLoader(getClass().getResource("/login-view.fxml"));
         scene = new Scene(fxmlLoader.load());

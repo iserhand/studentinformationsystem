@@ -10,6 +10,10 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
 public class AdminController {
+    Admin admin;
+    String dummyName = "Dummy Name";
+    String dummySurname = "Dummy surname";
+    //TODO: Add text fields for name and surname.
     public AnchorPane studentAdd;
     public TextField studentID;
     public TextField studentPW;
@@ -23,23 +27,14 @@ public class AdminController {
 
     public void onClickCreateProf(ActionEvent event) {
         if (!new File(professorID.getText()).exists()) {
-            Person prof = new Professor(professorID.getText(), professorPW.getText());
-            try {
-                FileOutputStream fileOutputStream
-                        = new FileOutputStream("database/" + professorID.getText() + ".txt");
-                ObjectOutputStream objectOutputStream
-                        = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(prof);
-                fileOutputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Professor prof = new Professor(professorID.getText(), professorPW.getText(), dummyName, dummySurname);
+            admin.createNewProfessor(prof);
         }
     }
 
     public void onClickCreateFaculty(ActionEvent event) {
         if (!new File(facultyID.getText()).exists()) {
-            Person faculty = new Faculty(facultyID.getText(), facultyPW.getText());
+            Person faculty = new Faculty(facultyID.getText(), facultyPW.getText(), dummyName, dummySurname);
             try {
                 FileOutputStream fileOutputStream
                         = new FileOutputStream("database/" + facultyID.getText() + ".txt");
@@ -56,17 +51,8 @@ public class AdminController {
 
     public void onClickCreateStudent(ActionEvent event) {
         if (!new File(studentID.getText()).exists()) {
-            Person student = new Student(studentID.getText(), studentPW.getText());
-            try {
-                FileOutputStream fileOutputStream
-                        = new FileOutputStream("database/" + studentID.getText() + ".txt");
-                ObjectOutputStream objectOutputStream
-                        = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(student);
-                fileOutputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Student student = new Student(studentID.getText(), studentPW.getText(), dummyName, dummySurname);
+            admin.createNewStudent(student);
         }
 
     }

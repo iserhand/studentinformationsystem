@@ -10,7 +10,5 @@ public class Class implements Serializable {
     private String classNumber;
     private String hour;
     private List<Student> students;
-    Class(){
-
-    }
+    
 }
