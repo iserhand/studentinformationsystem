@@ -117,7 +117,7 @@ public class LoginController {
         Person p2 = null;
         try {
             FileInputStream fileInputStream
-                    = new FileInputStream("database/" + idField.getText() + ".txt");
+                    = new FileInputStream("database/users/" + idField.getText() + ".txt");
             ObjectInputStream objectInputStream
                     = new ObjectInputStream(fileInputStream);
             p2 = (Person) objectInputStream.readObject();

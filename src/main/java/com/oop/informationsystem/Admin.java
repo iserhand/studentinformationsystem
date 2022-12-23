@@ -12,7 +12,7 @@ public class Admin extends Person {
         Person person = student;
         try {
             FileOutputStream fileOutputStream
-                    = new FileOutputStream("database/" + person.getId() + ".txt");
+                    = new FileOutputStream("database/users/" + person.getId() + ".txt");
             ObjectOutputStream objectOutputStream
                     = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(person);
@@ -27,7 +27,7 @@ public class Admin extends Person {
         Person person = professor;
         try {
             FileOutputStream fileOutputStream
-                    = new FileOutputStream("database/" + person.getId() + ".txt");
+                    = new FileOutputStream("database/users/" + person.getId() + ".txt");
             ObjectOutputStream objectOutputStream
                     = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(person);
@@ -37,12 +37,12 @@ public class Admin extends Person {
             return false;
         }
     }
-    
+
     public boolean createNewAdmin(Admin admin) {
         Person person = admin;
         try {
             FileOutputStream fileOutputStream
-                    = new FileOutputStream("database/" + person.getId() + ".txt");
+                    = new FileOutputStream("database/users/" + person.getId() + ".txt");
             ObjectOutputStream objectOutputStream
                     = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(person);

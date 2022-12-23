@@ -37,7 +37,7 @@ public class AdminController {
             Person faculty = new Faculty(facultyID.getText(), facultyPW.getText(), dummyName, dummySurname);
             try {
                 FileOutputStream fileOutputStream
-                        = new FileOutputStream("database/" + facultyID.getText() + ".txt");
+                        = new FileOutputStream("database/users/" + facultyID.getText() + ".txt");
                 ObjectOutputStream objectOutputStream
                         = new ObjectOutputStream(fileOutputStream);
                 objectOutputStream.writeObject(faculty);
