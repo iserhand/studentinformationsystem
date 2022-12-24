@@ -21,8 +21,6 @@ public class AdminController {
     public TextField professorID;
     public TextField professorPW;
     public AnchorPane facultyAdd;
-    public TextField facultyID;
-    public TextField facultyPW;
     public AnchorPane mainPage;
 
     public void onClickCreateProf(ActionEvent event) {
@@ -32,22 +30,6 @@ public class AdminController {
         }
     }
 
-    public void onClickCreateFaculty(ActionEvent event) {
-        if (!new File(facultyID.getText()).exists()) {
-            Person faculty = new Faculty(facultyID.getText(), facultyPW.getText(), dummyName, dummySurname);
-            try {
-                FileOutputStream fileOutputStream
-                        = new FileOutputStream("database/users/" + facultyID.getText() + ".txt");
-                ObjectOutputStream objectOutputStream
-                        = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(faculty);
-                fileOutputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 
     public void onClickCreateStudent(ActionEvent event) {
         if (!new File(studentID.getText()).exists()) {
@@ -56,15 +38,7 @@ public class AdminController {
         }
 
     }
-
-    public void onClickCreateFacultyPage(ActionEvent event) {
-        //Opens up page for adding a new faculty member
-        mainPage.setDisable(true);
-        mainPage.setVisible(false);
-        facultyAdd.setDisable(false);
-        facultyAdd.setVisible(true);
-    }
-
+    
     public void onClickCreateStudentPage(ActionEvent event) {
         //Opens up page for adding a new student
         mainPage.setDisable(true);

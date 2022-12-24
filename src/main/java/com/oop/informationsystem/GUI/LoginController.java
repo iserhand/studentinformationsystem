@@ -64,14 +64,6 @@ public class LoginController {
             stage.setTitle("Student");
             stage.setScene(scene);
             stage.show();
-        } else if (p2 instanceof Faculty) {
-            //go to faculty panel
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/admin-view.fxml")));
-            stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setTitle("Faculty");
-            stage.setScene(scene);
-            stage.show();
         } else if (p2 instanceof Professor) {
             //go to professor panel
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/professor-view.fxml")));
@@ -104,6 +96,7 @@ public class LoginController {
     @FXML
     public void initialize() {
         //Start the timer for time and date at initialisation
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
