@@ -8,6 +8,7 @@ public class Admin extends Person {
         super(id, password, name, surname);
     }
 
+
     public boolean createNewStudent(Student student) {
         Person person = student;
         try {
@@ -52,4 +53,5 @@ public class Admin extends Person {
             return false;
         }
     }
+
 }
