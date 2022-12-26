@@ -1,5 +1,7 @@
 package com.oop.informationsystem;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -71,5 +73,19 @@ public class Person implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void updateTextFile() {
+        try {
+            FileOutputStream fileOutputStream
+                    = new FileOutputStream("database/users/" + this.getId() + ".txt");
+            ObjectOutputStream objectOutputStream
+                    = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(this);
+            fileOutputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

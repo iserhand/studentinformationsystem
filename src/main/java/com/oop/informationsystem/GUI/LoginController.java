@@ -10,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -31,26 +30,27 @@ public class LoginController {
 
     @FXML
     protected void onHelloButtonClick(ActionEvent evt) throws IOException {
-        Person p2 = login(evt);
         loginBtn.setCursor(Cursor.WAIT);
+        Person p2 = login(evt);
+        loginBtn.setCursor(Cursor.DEFAULT);
         if (p2 == null) {
-            loginBtn.setCursor(Cursor.DEFAULT);
             return;
         }
-        if (idField.getText().equals(p2.getId()) && !passwordField.getText().equals(p2.getPassword())
-                || !idField.getText().equals(p2.getId()) && !passwordField.getText().equals(p2.getPassword())
-                || !idField.getText().equals(p2.getId()) && passwordField.getText().equals(p2.getPassword())) {
-            //Wrong id/password
-            onFailure(1);
-
-        } else {
+        if (idField.getText().equals(p2.getId()) && passwordField.getText().equals(p2.getPassword())) {
             welcomeText.setStyle("-fx-text-fill: green;");
             welcomeText.setText("Log-in success!");
+            stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
+            stage.setUserData(p2);
+
+
+        } else {
+            //Wrong id/password
+            onFailure(1);
+            return;
         }
         if (p2 instanceof Admin) {
             //go to admin panel
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/admin-view.fxml")));
-            stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setTitle("Admin");
             stage.setScene(scene);
@@ -59,7 +59,6 @@ public class LoginController {
         } else if (p2 instanceof Student) {
             //go to student panel
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/student-view.fxml")));
-            stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setTitle("Student");
             stage.setScene(scene);
@@ -67,13 +66,12 @@ public class LoginController {
         } else if (p2 instanceof Professor) {
             //go to professor panel
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/professor-view.fxml")));
-            stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setTitle("Professor");
             stage.setScene(scene);
             stage.show();
         }
-        loginBtn.setCursor(Cursor.DEFAULT);
+
 
     }
 

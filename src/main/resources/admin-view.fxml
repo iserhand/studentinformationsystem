@@ -9,56 +9,77 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="410.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.informationsystem.GUI.AdminController">
+<AnchorPane prefHeight="410.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.oop.informationsystem.GUI.AdminController">
     <children>
         <AnchorPane fx:id="mainPage" layoutX="109.0" layoutY="200.0" prefHeight="25.0" prefWidth="488.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#onClickCreateClassPage" text="Add New Class" />
-                <Button layoutX="138.0" mnemonicParsing="false" onAction="#onClickCreateProfPage" text="Add New Professor" />
-                <Button layoutX="302.0" mnemonicParsing="false" onAction="#onClickCreateStudentPage" text="Add New Student" />
+                <Button mnemonicParsing="false" onAction="#onClickCreateClassPage" text="Add New Class"/>
+                <Button layoutX="138.0" mnemonicParsing="false" onAction="#onClickCreateProfPage"
+                        text="Add New Professor"/>
+                <Button layoutX="302.0" mnemonicParsing="false" onAction="#onClickCreateStudentPage"
+                        text="Add New Student"/>
             </children>
         </AnchorPane>
         <AnchorPane fx:id="studentAdd" disable="true" prefHeight="410.0" prefWidth="655.0" visible="false">
             <children>
-                <TextField fx:id="studentID" layoutX="229.0" layoutY="48.0" />
-                <Button layoutX="278.0" layoutY="138.0" mnemonicParsing="false" onAction="#onClickCreateStudent" text="Add" />
-                <TextField fx:id="studentPW" layoutX="229.0" layoutY="86.0" />
-                <Label layoutX="161.0" layoutY="52.0" prefHeight="17.0" prefWidth="38.0" text="ID" />
-                <Label layoutX="161.0" layoutY="90.0" text="Password" />
+                <TextField fx:id="studentID" layoutX="229.0" layoutY="48.0"/>
+                <Button defaultButton="true" layoutX="278.0" layoutY="138.0" mnemonicParsing="false"
+                        onAction="#onClickCreateStudent" text="Add"/>
+                <TextField fx:id="studentPW" layoutX="229.0" layoutY="86.0"/>
+                <Label layoutX="161.0" layoutY="52.0" prefHeight="17.0" prefWidth="38.0" text="ID"/>
+                <Label layoutX="161.0" layoutY="90.0" text="Password"/>
             </children>
         </AnchorPane>
         <AnchorPane fx:id="professorAdd" disable="true" prefHeight="410.0" prefWidth="654.0" visible="false">
             <children>
-                <TextField fx:id="professorID" layoutX="229.0" layoutY="48.0" />
-                <Button layoutX="278.0" layoutY="138.0" mnemonicParsing="false" onAction="#onClickCreateProf" text="Add" />
-                <TextField fx:id="professorPW" layoutX="229.0" layoutY="86.0" />
-                <Label layoutX="161.0" layoutY="52.0" prefHeight="17.0" prefWidth="38.0" text="ID" />
-                <Label layoutX="161.0" layoutY="90.0" text="Password" />
+                <TextField fx:id="professorID" layoutX="229.0" layoutY="48.0"/>
+                <Button fx:id="goBackProfBtn" mnemonicParsing="false" onAction="#goBackProfBtn" text="&lt;"/>
+                <Button defaultButton="true" layoutX="278.0" layoutY="138.0" mnemonicParsing="false"
+                        onAction="#onClickCreateProf" text="Add"/>
+                <TextField fx:id="professorPW" layoutX="229.0" layoutY="86.0"/>
+                <Label layoutX="161.0" layoutY="52.0" prefHeight="17.0" prefWidth="38.0" text="ID"/>
+                <Label layoutX="161.0" layoutY="90.0" text="Password"/>
             </children>
         </AnchorPane>
         <AnchorPane fx:id="classAdd" disable="true" prefHeight="410.0" prefWidth="654.0" visible="false">
             <children>
-                <Button layoutX="271.0" layoutY="363.0" mnemonicParsing="false" text="Create Class" />
-                <TextField fx:id="classNameTxt" layoutX="122.0" layoutY="29.0" />
-                <Label layoutX="50.0" layoutY="33.0" text="Class Name" />
-                <TextField fx:id="classCodeTxt" layoutX="122.0" layoutY="74.0" />
-                <Label layoutX="50.0" layoutY="78.0" text="Class Code" />
-                <ChoiceBox fx:id="profChoice" layoutX="399.0" layoutY="30.0" prefWidth="150.0" />
-                <Label layoutX="321.0" layoutY="34.0" text="Professor" />
-                <Label layoutX="321.0" layoutY="78.0" text="Hour" />
-                <TextField fx:id="hourTxt" layoutX="400.0" layoutY="74.0" />
-                <HBox layoutX="46.0" layoutY="134.0" prefHeight="51.0" prefWidth="505.0" spacing="40.0">
+                <Button fx:id="goBackClassBtn" mnemonicParsing="false" onAction="#goBackClassBtn" text="&lt;"/>
+                <Button defaultButton="true" layoutX="281.0" layoutY="257.0" mnemonicParsing="false"
+                        onAction="#onClickCreateClass" text="Create Class"/>
+                <TextField fx:id="classNameTxt" layoutX="122.0" layoutY="29.0" onKeyTyped="#checkClassName"/>
+                <Label layoutX="50.0" layoutY="33.0" text="Class Name"/>
+                <TextField fx:id="classCodeTxt" layoutX="122.0" layoutY="74.0" onKeyTyped="#checkClassCode"/>
+                <Label layoutX="50.0" layoutY="78.0" text="Class Code"/>
+                <ChoiceBox fx:id="profChoice" layoutX="399.0" layoutY="30.0" onAction="#checkProfSelection"
+                           prefWidth="150.0"/>
+                <Label layoutX="321.0" layoutY="34.0" text="Professor"/>
+                <Label layoutX="321.0" layoutY="78.0" text="Hour"/>
+                <TextField fx:id="hourTxt" layoutX="400.0" layoutY="74.0" onKeyTyped="#keyTyped"/>
+                <Label fx:id="clockCheckLabel" layoutX="399.0" layoutY="107.0" prefHeight="17.0" prefWidth="217.0"
+                       style="-fx-text-fill: red" text="Please enter a valid time (Saat:Dakika)" visible="false"
+                       wrapText="true"/>
+                <HBox fx:id="hboxDaySelect" layoutX="59.0" layoutY="168.0" prefHeight="25.0" prefWidth="505.0"
+                      spacing="40.0">
                     <children>
-                        <CheckBox fx:id="mondayCheck" mnemonicParsing="false" text="Monday" />
-                        <CheckBox fx:id="tuesdayCheck" mnemonicParsing="false" text="Tuesday" />
-                        <CheckBox fx:id="thursdayCheck" mnemonicParsing="false" text="Thursday" />
-                        <CheckBox fx:id="wednesdayCheck" mnemonicParsing="false" text="Wednesday" />
-                        <CheckBox fx:id="fridayCheck" mnemonicParsing="false" text="Friday" />
+                        <CheckBox fx:id="mondayCheck" mnemonicParsing="false" text="Monday" onAction="#dayCheckAction"/>
+                        <CheckBox fx:id="tuesdayCheck" mnemonicParsing="false" text="Tuesday"
+                                  onAction="#dayCheckAction"/>
+                        <CheckBox fx:id="thursdayCheck" mnemonicParsing="false" text="Thursday"
+                                  onAction="#dayCheckAction"/>
+                        <CheckBox fx:id="wednesdayCheck" mnemonicParsing="false" text="Wednesday"
+                                  onAction="#dayCheckAction"/>
+                        <CheckBox fx:id="fridayCheck" mnemonicParsing="false" text="Friday" onAction="#dayCheckAction"/>
                     </children>
                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0"/>
                     </padding>
                 </HBox>
+                <TextField fx:id="classroomTxt" layoutX="122.0" layoutY="116.0"/>
+                <Label layoutX="50.0" layoutY="120.0" text="Classroom"/>
+                <Label fx:id="lblWarningDaySelect" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="243.0"
+                       layoutY="197.0" prefHeight="17.0" prefWidth="158.0" text="Please select at least one day"
+                       textAlignment="CENTER" wrapText="true" style="-fx-text-fill: red" visible="false"/>
             </children>
         </AnchorPane>
     </children>

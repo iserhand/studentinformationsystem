@@ -1,15 +1,28 @@
 package com.oop.informationsystem;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Class implements Serializable {
     private Professor teacher;
     private String className;
     private String classCode;
-    private int[] daysOfWeek;
+    private int[] daysOfWeek = {0, 0, 0, 0, 0, 0, 0};
     private String classRoom;
     private String hour;
+    private List<Student> students;
+
+    public Class(String className, String classCode, Professor teacher, int[] daysOfWeek, String classRoom) {
+        students = new ArrayList<>();
+        this.classRoom = classRoom;
+        this.className = className;
+        this.classCode = classCode;
+        this.teacher = teacher;
+        this.daysOfWeek = daysOfWeek;
+    }
 
     public Professor getTeacher() {
         return teacher;
@@ -67,11 +80,20 @@ public class Class implements Serializable {
         this.students = students;
     }
 
-    public Class(String className, String classCode) {
-        this.className = className;
-        this.classCode = classCode;
+
+    public void updateTextFile() {
+        try {
+            FileOutputStream fileOutputStream
+                    = new FileOutputStream("database/classes/" + this.getClassCode() + ".txt");
+            ObjectOutputStream objectOutputStream
+                    = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(this);
+            fileOutputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private List<Student> students;
 
 }

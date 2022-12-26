@@ -1,22 +1,27 @@
 package com.oop.informationsystem.GUI;
 
 import com.oop.informationsystem.*;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+import com.oop.informationsystem.Class;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class AdminController {
+    public HBox hboxDaySelect;
+    public Label lblWarningDaySelect;
+    private boolean dontCreate = false;
     public AnchorPane classAdd;
     public CheckBox mondayCheck;
     public CheckBox tuesdayCheck;
@@ -27,7 +32,11 @@ public class AdminController {
     public ChoiceBox<Professor> profChoice;
     public TextField classCodeTxt;
     public TextField classNameTxt;
-    Admin admin = new Admin("abc", "abc", "abc", "abc");
+    public Label clockCheckLabel;
+    public TextField classroomTxt;
+    public Button goBackClassBtn;
+    public Button goBackProfBtn;
+    Admin admin;
     String dummyName = "Dummy Name";
     String dummySurname = "Dummy surname";
     //TODO: Add text fields for name and surname.
@@ -40,7 +49,10 @@ public class AdminController {
     public AnchorPane mainPage;
 
     public void onClickCreateProf(ActionEvent event) {
-        if (!new File(professorID.getText()).exists()) {
+        Node node = (Node) event.getSource();
+        Stage getInfo = (Stage) node.getScene().getWindow();
+        admin = (Admin) getInfo.getUserData();
+        if (!new File("database/users/" + professorID.getText() + ".txt").exists()) {
             Professor prof = new Professor(professorID.getText(), professorPW.getText(), dummyName, dummySurname);
             admin.createNewProfessor(prof);
         }
@@ -48,7 +60,10 @@ public class AdminController {
 
 
     public void onClickCreateStudent(ActionEvent event) {
-        if (!new File(studentID.getText()).exists()) {
+        Node node = (Node) event.getSource();
+        Stage getInfo = (Stage) node.getScene().getWindow();
+        admin = (Admin) getInfo.getUserData();
+        if (!new File("database/users/" + studentID.getText() + ".txt").exists()) {
             Student student = new Student(studentID.getText(), studentPW.getText(), dummyName, dummySurname);
             admin.createNewStudent(student);
         }
@@ -90,7 +105,6 @@ public class AdminController {
         File[] files = f.listFiles(textFilter);
         for (File file : files) {
             if (file.isDirectory()) {
-                System.out.print("directory:");
             } else {
                 try {
                     FileInputStream fileInputStream
@@ -101,18 +115,150 @@ public class AdminController {
                     professorList.add(p2);
                     objectInputStream.close();
                 } catch (ClassNotFoundException e) {
-                    System.out.println("classnotfound");
+                    e.printStackTrace();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
             }
         }
-        System.out.println(professorList.size());
         profChoice.getItems().setAll(professorList);
 
+    }
 
+
+    public void onClickCreateClass(ActionEvent event) {
+        Node node = (Node) event.getSource();
+        Stage getInfo = (Stage) node.getScene().getWindow();
+        admin = (Admin) getInfo.getUserData();
+        Professor selectedProf = profChoice.getSelectionModel().getSelectedItem();
+        int[] daysOfWeek = {0, 0, 0, 0, 0, 0, 0};
+        if (mondayCheck.isSelected() || tuesdayCheck.isSelected() || wednesdayCheck.isSelected() || thursdayCheck.isSelected() || fridayCheck.isSelected()) {
+            //keep going
+            hboxDaySelect.setStyle("-fx-border-color: default");
+            lblWarningDaySelect.setVisible(false);
+        } else {
+            hboxDaySelect.setStyle("-fx-border-color: red");
+            lblWarningDaySelect.setVisible(true);
+            return;
+        }
+
+        if (mondayCheck.isSelected())
+            daysOfWeek[0] = 1;
+        if (tuesdayCheck.isSelected())
+            daysOfWeek[1] = 1;
+        if (wednesdayCheck.isSelected())
+            daysOfWeek[2] = 1;
+        if (thursdayCheck.isSelected())
+            daysOfWeek[3] = 1;
+        if (fridayCheck.isSelected())
+            daysOfWeek[4] = 1;
+        Class c = new Class(classNameTxt.getText(), classCodeTxt.getText(), selectedProf, daysOfWeek, classroomTxt.getText());
+        List<Class> teaches = selectedProf.getTeaches();
+        teaches.add(c);
+        selectedProf.setTeaches(teaches);
+        c.updateTextFile();
+        if (dontCreate) {
+            //TODO:Add warning label here on top of the button
+        } else {
+            //POP UP
+            Label successLbl = new Label("Successfully Added a new Class:" + c.getClassCode());
+            Button okBtn = new Button("OK!");
+            okBtn.setStyle("--fxbackground-color: lightgreen");
+            okBtn.setOnAction(e -> {
+                Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+                stage.close();
+            });
+            VBox popupPane = new VBox();
+            popupPane.setStyle("-fx-alignment: center");
+            popupPane.setSpacing(15);
+            popupPane.getChildren().addAll(successLbl, okBtn);
+
+            Stage popUp = new Stage();
+            Scene popUpScene = new Scene(popupPane, 250, 100);
+            popUp.initModality(Modality.APPLICATION_MODAL);
+            popUp.setTitle("SUCCESS!");
+            popUp.setScene(popUpScene);
+            popUp.showAndWait();
+        }
+
+
+    }
+
+    public void keyTyped(KeyEvent keyEvent) {
+        try {
+            LocalTime.parse(hourTxt.getText());
+            clockCheckLabel.setVisible(false);
+            hourTxt.setStyle("-fx-text-box-border: green; -fx-focus-color: green;");
+            dontCreate = false;
+        } catch (DateTimeParseException | NullPointerException e) {
+            clockCheckLabel.setVisible(true);
+            hourTxt.setStyle("-fx-text-box-border: red; -fx-focus-color: red;");
+            dontCreate = true;
+        }
+    }
+
+    public void goBackProfBtn(ActionEvent event) {
+        //Go back from the add professor page
+        mainPage.setDisable(false);
+        mainPage.setVisible(true);
+        professorAdd.setDisable(true);
+        professorAdd.setVisible(false);
+
+    }
+
+    public void goBackClassBtn(ActionEvent event) {
+        //Go back from the add class page
+        mainPage.setDisable(false);
+        mainPage.setVisible(true);
+        classAdd.setDisable(true);
+        classAdd.setVisible(false);
+    }
+
+    public void checkClassCode(KeyEvent keyEvent) {
+        if (classCodeTxt.getText().isBlank() || classCodeTxt.getText().isEmpty()) {
+            classCodeTxt.setStyle("-fx-border-color: red");
+        } else {
+            classCodeTxt.setStyle("-fx-border-color: green");
+            if (new File("database/classes/" + classCodeTxt.getText() + ".txt").exists()) {
+                classCodeTxt.setStyle("-fx-border-color: red");
+                classCodeTxt.setPromptText("THIS CLASS ALREADY EXISTS!");
+                dontCreate = true;
+            } else {
+                classCodeTxt.setStyle("-fx-border-color: green");
+                classCodeTxt.setPromptText("");
+                dontCreate = false;
+            }
+        }
+    }
+
+    public void checkClassName(KeyEvent keyEvent) {
+        if (classNameTxt.getText().isBlank() || classNameTxt.getText().isEmpty()) {
+            dontCreate = true;
+        } else {
+            dontCreate = false;
+        }
+    }
+
+    public void checkProfSelection(ActionEvent event) {
+        if (profChoice.getSelectionModel().getSelectedItem().getId().isEmpty() || profChoice.getSelectionModel().getSelectedItem().getId().isBlank()) {
+            dontCreate = true;
+        } else {
+            dontCreate = false;
+        }
+    }
+
+    public void dayCheckAction(ActionEvent event) {
+        if (mondayCheck.isSelected() || tuesdayCheck.isSelected() || wednesdayCheck.isSelected() || thursdayCheck.isSelected() || fridayCheck.isSelected()) {
+            hboxDaySelect.setStyle("-fx-border-color: default");
+            lblWarningDaySelect.setVisible(false);
+            dontCreate = false;
+        } else {
+            hboxDaySelect.setStyle("-fx-border-color: red");
+            lblWarningDaySelect.setVisible(true);
+            dontCreate = true;
+        }
     }
 
 
