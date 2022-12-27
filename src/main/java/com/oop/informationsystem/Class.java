@@ -95,5 +95,8 @@ public class Class implements Serializable {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return getClassName() + ":" + getClassCode();
+    }
 }

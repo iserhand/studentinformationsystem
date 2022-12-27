@@ -21,7 +21,6 @@ public class ProfessorController {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int i = calendar.get(Calendar.DAY_OF_WEEK);
-        System.out.println("Day of week:" + i);
         if (holidaysList.contains(formatter.format(date))) {
             //Holiday TODO:Add holiday note
         } else if (i == 1 || i == 7) {
