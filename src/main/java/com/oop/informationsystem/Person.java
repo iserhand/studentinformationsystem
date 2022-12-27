@@ -36,6 +36,8 @@ public class Person implements Serializable {
     public Person(String id, String password, String name, String surname) {
         this.id = id;
         this.password = password;
+        this.name = name;
+        this.surname = surname;
         notes = new ArrayList<>();
         todaysClasses = new ArrayList<Class>();
     }

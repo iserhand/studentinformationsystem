@@ -25,6 +25,11 @@ public class AdminController {
     public HBox hboxDaySelect;
     public Label lblWarningDaySelect;
     public Label dateAndTime;
+    public TextField studentSurname;
+    public TextField studentName;
+    public TextField professorPassword;
+    public TextField professorName;
+    public TextField professorSurname;
     private boolean dontCreate = false;
     public AnchorPane classAdd;
     public CheckBox mondayCheck;
@@ -41,15 +46,12 @@ public class AdminController {
     public Button goBackClassBtn;
     public Button goBackProfBtn;
     Admin admin;
-    String dummyName = "Dummy Name";
-    String dummySurname = "Dummy surname";
-    //TODO: Add text fields for name and surname.
+
     public AnchorPane studentAdd;
     public TextField studentID;
     public TextField studentPW;
     public AnchorPane professorAdd;
     public TextField professorID;
-    public TextField professorPW;
     public AnchorPane mainPage;
 
     public void onClickCreateProf(ActionEvent event) {
@@ -57,7 +59,7 @@ public class AdminController {
         Stage getInfo = (Stage) node.getScene().getWindow();
         admin = (Admin) getInfo.getUserData();
         if (!new File("database/users/" + professorID.getText() + ".txt").exists()) {
-            Professor prof = new Professor(professorID.getText(), professorPW.getText(), dummyName, dummySurname);
+            Professor prof = new Professor(professorID.getText(), professorPassword.getText(), professorName.getText(), professorSurname.getText());
             admin.createNewProfessor(prof);
         }
     }
@@ -68,7 +70,7 @@ public class AdminController {
         Stage getInfo = (Stage) node.getScene().getWindow();
         admin = (Admin) getInfo.getUserData();
         if (!new File("database/users/" + studentID.getText() + ".txt").exists()) {
-            Student student = new Student(studentID.getText(), studentPW.getText(), dummyName, dummySurname);
+            Student student = new Student(studentID.getText(), studentPW.getText(), studentName.getText(), studentSurname.getText());
             admin.createNewStudent(student);
         }
 
@@ -280,4 +282,6 @@ public class AdminController {
         studentAdd.setDisable(true);
         studentAdd.setVisible(false);
     }
+    //TODO:Logout button on main screen> goes back to the login page.>Set user data to null
+    //TODO:Validity check for text fields.
 }
