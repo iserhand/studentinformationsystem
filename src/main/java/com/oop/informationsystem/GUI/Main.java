@@ -20,6 +20,7 @@ public class Main extends Application {
         Admin admin = new Admin("administrator", "123456", "Serhan", "Desteli");
         admin.createNewAdmin(admin);
         stage.getIcons().add(new Image("https://img.icons8.com/ios-glyphs/30/null/student-center.png"));
+        stage.setResizable(false);
         fxmlLoader = new FXMLLoader(getClass().getResource("/login-view.fxml"));
         scene = new Scene(fxmlLoader.load());
         stage.setTitle("Log-in!");

@@ -2,6 +2,7 @@ package com.oop.informationsystem.GUI;
 
 import com.oop.informationsystem.*;
 import com.oop.informationsystem.Class;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -14,13 +15,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class AdminController {
     public HBox hboxDaySelect;
     public Label lblWarningDaySelect;
+    public Label dateAndTime;
     private boolean dontCreate = false;
     public AnchorPane classAdd;
     public CheckBox mondayCheck;
@@ -115,11 +119,8 @@ public class AdminController {
                     professorList.add(p2);
                     objectInputStream.close();
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
                 } catch (IOException ex) {
-                    ex.printStackTrace();
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         }
@@ -261,5 +262,22 @@ public class AdminController {
         }
     }
 
+    @FXML
+    public void initialize() {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                dateAndTime.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+            }
+        };
+        timer.start();
+    }
 
+
+    public void goBackStudentBtn(ActionEvent event) {
+        mainPage.setDisable(false);
+        mainPage.setVisible(true);
+        studentAdd.setDisable(true);
+        studentAdd.setVisible(false);
+    }
 }

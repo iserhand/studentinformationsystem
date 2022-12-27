@@ -31,7 +31,6 @@ public class ProfessorController {
             Class c = null;
             List<Class> classList = new ArrayList<>();
             File f = new File("database/classes/");
-
             FilenameFilter textFilter = new FilenameFilter() {
                 public boolean accept(File dir, String name) {
                     return name.toLowerCase().endsWith(".txt");
