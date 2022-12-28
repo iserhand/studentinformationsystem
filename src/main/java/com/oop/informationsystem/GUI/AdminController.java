@@ -4,12 +4,12 @@ import com.oop.informationsystem.*;
 import com.oop.informationsystem.Class;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -76,7 +76,7 @@ public class AdminController {
 
     }
 
-    public void onClickCreateStudentPage(ActionEvent event) {
+    public void onClickCreateStudentPage() {
         //Opens up page for adding a new student
         mainPage.setDisable(true);
         mainPage.setVisible(false);
@@ -84,7 +84,7 @@ public class AdminController {
         studentAdd.setVisible(true);
     }
 
-    public void onClickCreateProfPage(ActionEvent event) {
+    public void onClickCreateProfPage() {
         //Opens up page for adding a new professor
         mainPage.setDisable(true);
         mainPage.setVisible(false);
@@ -92,7 +92,7 @@ public class AdminController {
         professorAdd.setVisible(true);
     }
 
-    public void onClickCreateClassPage(ActionEvent event) {
+    public void onClickCreateClassPage() {
         mainPage.setDisable(true);
         mainPage.setVisible(false);
         //Class adding screen
@@ -101,7 +101,6 @@ public class AdminController {
         Professor p2 = null;
         List<Professor> professorList = new ArrayList<>();
         File f = new File("database/users/");
-
         FilenameFilter textFilter = new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.toLowerCase().endsWith(".txt");
@@ -109,9 +108,9 @@ public class AdminController {
         };
 
         File[] files = f.listFiles(textFilter);
+        assert files != null;
         for (File file : files) {
-            if (file.isDirectory()) {
-            } else {
+            if (!file.isDirectory()) {
                 try {
                     FileInputStream fileInputStream
                             = new FileInputStream(file);
@@ -120,9 +119,7 @@ public class AdminController {
                     p2 = (Professor) objectInputStream.readObject();
                     professorList.add(p2);
                     objectInputStream.close();
-                } catch (ClassNotFoundException e) {
-                } catch (IOException ex) {
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
             }
         }
@@ -189,7 +186,7 @@ public class AdminController {
 
     }
 
-    public void keyTyped(KeyEvent keyEvent) {
+    public void keyTyped() {
         try {
             LocalTime.parse(hourTxt.getText());
             clockCheckLabel.setVisible(false);
@@ -202,7 +199,7 @@ public class AdminController {
         }
     }
 
-    public void goBackProfBtn(ActionEvent event) {
+    public void goBackProfBtn() {
         //Go back from the add professor page
         mainPage.setDisable(false);
         mainPage.setVisible(true);
@@ -211,7 +208,7 @@ public class AdminController {
 
     }
 
-    public void goBackClassBtn(ActionEvent event) {
+    public void goBackClassBtn() {
         //Go back from the add class page
         mainPage.setDisable(false);
         mainPage.setVisible(true);
@@ -219,7 +216,7 @@ public class AdminController {
         classAdd.setVisible(false);
     }
 
-    public void checkClassCode(KeyEvent keyEvent) {
+    public void checkClassCode() {
         if (classCodeTxt.getText().isBlank() || classCodeTxt.getText().isEmpty()) {
             classCodeTxt.setStyle("-fx-border-color: red");
         } else {
@@ -236,23 +233,15 @@ public class AdminController {
         }
     }
 
-    public void checkClassName(KeyEvent keyEvent) {
-        if (classNameTxt.getText().isBlank() || classNameTxt.getText().isEmpty()) {
-            dontCreate = true;
-        } else {
-            dontCreate = false;
-        }
+    public void checkClassName() {
+        dontCreate = classNameTxt.getText().isBlank() || classNameTxt.getText().isEmpty();
     }
 
-    public void checkProfSelection(ActionEvent event) {
-        if (profChoice.getSelectionModel().getSelectedItem().getId().isEmpty() || profChoice.getSelectionModel().getSelectedItem().getId().isBlank()) {
-            dontCreate = true;
-        } else {
-            dontCreate = false;
-        }
+    public void checkProfSelection() {
+        dontCreate = profChoice.getSelectionModel().getSelectedItem().getId().isEmpty() || profChoice.getSelectionModel().getSelectedItem().getId().isBlank();
     }
 
-    public void dayCheckAction(ActionEvent event) {
+    public void dayCheckAction() {
         if (mondayCheck.isSelected() || tuesdayCheck.isSelected() || wednesdayCheck.isSelected() || thursdayCheck.isSelected() || fridayCheck.isSelected()) {
             hboxDaySelect.setStyle("-fx-border-color: default");
             lblWarningDaySelect.setVisible(false);
@@ -276,12 +265,24 @@ public class AdminController {
     }
 
 
-    public void goBackStudentBtn(ActionEvent event) {
+    public void goBackStudentBtn() {
         mainPage.setDisable(false);
         mainPage.setVisible(true);
         studentAdd.setDisable(true);
         studentAdd.setVisible(false);
     }
-    //TODO:Logout button on main screen> goes back to the login page.>Set user data to null
+
+    public void logOut(ActionEvent event) throws IOException {
+        //Log out action,set user data to null
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/login-view.fxml")));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setUserData(null);
+        stage.setTitle("Log-in");
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
     //TODO:Validity check for text fields.
 }

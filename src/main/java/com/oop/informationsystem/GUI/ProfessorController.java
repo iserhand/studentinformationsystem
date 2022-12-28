@@ -26,7 +26,7 @@ public class ProfessorController {
         } else if (i == 1 || i == 7) {
             //Weekend TODO: Add weekend note
         } else {
-            //go go power rangers
+            //gogo power rangers
             Class c = null;
             List<Class> classList = new ArrayList<>();
             File f = new File("database/classes/");
@@ -37,9 +37,9 @@ public class ProfessorController {
             };
 
             File[] files = f.listFiles(textFilter);
+            assert files != null;
             for (File file : files) {
-                if (file.isDirectory()) {
-                } else {
+                if (!file.isDirectory()) {
                     try {
                         FileInputStream fileInputStream
                                 = new FileInputStream(file);

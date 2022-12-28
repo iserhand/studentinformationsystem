@@ -24,18 +24,16 @@ public class LoginController {
     public Button loginBtn;
     @FXML
     private Label welcomeText;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     @FXML
     protected void onHelloButtonClick(ActionEvent evt) throws IOException {
         loginBtn.setCursor(Cursor.WAIT);
-        Person p2 = login(evt);
+        Person p2 = login();
         loginBtn.setCursor(Cursor.DEFAULT);
         if (p2 == null) {
             return;
         }
+        Stage stage;
         if (idField.getText().equals(p2.getId()) && passwordField.getText().equals(p2.getPassword())) {
             welcomeText.setStyle("-fx-text-fill: green;");
             welcomeText.setText("Log-in success!");
@@ -48,6 +46,7 @@ public class LoginController {
             onFailure(1);
             return;
         }
+        Scene scene;
         if (p2 instanceof Admin) {
             //go to admin panel
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/admin-view.fxml")));
@@ -78,16 +77,16 @@ public class LoginController {
 
     private void onFailure(int reason) {
         switch (reason) {
-            case 0:
+            case 0 -> {
                 //User not found
                 welcomeText.setStyle("-fx-text-fill: red;");
                 welcomeText.setText("user not found!");
-                break;
-            case 1:
+            }
+            case 1 -> {
                 //Incorrect username or password
                 welcomeText.setStyle("-fx-text-fill: red;");
                 welcomeText.setText("incorrect username/password");
-                break;
+            }
         }
     }
 
@@ -104,7 +103,7 @@ public class LoginController {
         timer.start();
     }
 
-    private Person login(ActionEvent evt) {
+    private Person login() {
         Person p2 = null;
         try {
             FileInputStream fileInputStream
@@ -113,9 +112,7 @@ public class LoginController {
                     = new ObjectInputStream(fileInputStream);
             p2 = (Person) objectInputStream.readObject();
             objectInputStream.close();
-        } catch (ClassNotFoundException e) {
-            onFailure(0);
-        } catch (IOException ex) {
+        } catch (ClassNotFoundException | IOException e) {
             onFailure(0);
         }
         return p2;

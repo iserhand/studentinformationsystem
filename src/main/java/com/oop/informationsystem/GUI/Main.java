@@ -3,7 +3,6 @@ package com.oop.informationsystem.GUI;
 import com.oop.informationsystem.Admin;
 import com.oop.informationsystem.Professor;
 import com.oop.informationsystem.Student;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

@@ -31,7 +31,7 @@ public class StudentController {
             //Weekend TODO: Add weekend note
         } else {
             //go go power rangers
-            Class c = null;
+            Class c;
             List<Class> classList = new ArrayList<>();
             File f = new File("database/classes/");
 
@@ -42,9 +42,9 @@ public class StudentController {
             };
 
             File[] files = f.listFiles(textFilter);
+            assert files != null;
             for (File file : files) {
-                if (file.isDirectory()) {
-                } else {
+                if (!file.isDirectory()) {
                     try {
                         FileInputStream fileInputStream
                                 = new FileInputStream(file);
