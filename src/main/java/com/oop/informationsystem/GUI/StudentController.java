@@ -10,10 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -52,7 +52,7 @@ public class StudentController {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        List<Class> registeredClasses = student.getRegisteredClasses();
+        List<String> registeredClasses = student.getRegisteredClasses();
         int i = calendar.get(Calendar.DAY_OF_WEEK);
         if (holidaysList.contains(formatter.format(date))) {
             //Holiday TODO:Add holiday note
@@ -95,7 +95,6 @@ public class StudentController {
     }
 
     private void populateChoiceBox() {
-        //TODO: Fix circular reference error
         Class c = null;
         List<Class> classList = new ArrayList<>();
         File f = new File("database/classes/");
@@ -115,14 +114,16 @@ public class StudentController {
                     ObjectInputStream objectInputStream
                             = new ObjectInputStream(fileInputStream);
                     c = (Class) objectInputStream.readObject();
-                    if (!student.getRegisteredClasses().contains(c)) {
+                    if (!student.getRegisteredClasses().contains(c.getClassCode())) {
                         classList.add(c);
+                        System.out.println("ekledik mk");
                     }
                     objectInputStream.close();
                 } catch (Exception ignored) {
                 }
             }
         }
+        List<String> studentsclasses = student.getRegisteredClasses();
         registerChoiceBox.getItems().addAll(classList);
     }
 
@@ -152,23 +153,14 @@ public class StudentController {
         }
         //TODO: Add Success status UI here.
         Class registeredClass = registerChoiceBox.getSelectionModel().getSelectedItem();
-        List<Class> classList = student.getRegisteredClasses();
-        classList.add(registeredClass);
+        List<String> classList = student.getRegisteredClasses();
+        classList.add(registeredClass.getClassCode());
         student.setRegisteredClasses(classList);
         List<Student> studList = registeredClass.getStudents();
         studList.add(student);
         registeredClass.setStudents(studList);
         student.updateTextFile();
         registeredClass.updateTextFile();
-        System.out.println("studentlist:");
-        for (Student s : studList) {
-            System.out.println(s);
-        }
-        System.out.println("classlist");
-        for (Class c : classList) {
-            System.out.println(c);
-        }
-
 
         System.out.println("OK?" + registeredClass + student);
         registerChoiceBox.getItems().remove(registeredClass);
@@ -188,10 +180,44 @@ public class StudentController {
 
     public void addNote(ActionEvent event) {
         //TODO:Add new note pop up
+        //POP UP
+        TextArea newNoteText = new TextArea();
+        Label noteAddedLabel = new Label("Successfully Added new Note!");
+        noteAddedLabel.setVisible(false);
+        newNoteText.setOnKeyTyped(event1 -> {
+            noteAddedLabel.setVisible(false);
+        });
+        Button okBtn = new Button("Add");
+        okBtn.setStyle("--fxbackground-color: lightgreen");
+        okBtn.setOnAction(e -> {
+            List<String> notes = student.getNotes();
+            notes.add(newNoteText.getText());
+            student.setNotes(notes);
+            student.updateTextFile();
+            noteAddedLabel.setVisible(true);
+            System.out.println(student.getNotes().size());
+            myNotes.getItems().add(newNoteText.getText());
+        });
+        VBox popupPane = new VBox();
+        popupPane.setStyle("-fx-alignment: center");
+        popupPane.setSpacing(15);
+        popupPane.getChildren().addAll(newNoteText, noteAddedLabel, okBtn);
+
+        Stage popUp = new Stage();
+        Scene popUpScene = new Scene(popupPane, 250, 150);
+        popUp.initModality(Modality.APPLICATION_MODAL);
+        popUp.setTitle("New Note");
+        popUp.setScene(popUpScene);
+        popUp.showAndWait();
 
     }
 
     public void removeNote(ActionEvent event) {
         //TODO:Remove selected note
+        String removeNote = myNotes.getSelectionModel().getSelectedItem();
+        List<String> notes = student.getNotes();
+        notes.remove(removeNote);
+        student.setNotes(notes);
+        myNotes.getItems().remove(removeNote);
     }
 }
