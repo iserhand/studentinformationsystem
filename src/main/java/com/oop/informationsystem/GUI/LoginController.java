@@ -3,6 +3,7 @@ package com.oop.informationsystem.GUI;
 import com.oop.informationsystem.*;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -11,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -39,8 +42,6 @@ public class LoginController {
             welcomeText.setText("Log-in success!");
             stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
             stage.setUserData(p2);
-
-
         } else {
             //Wrong id/password
             onFailure(1);
@@ -57,18 +58,25 @@ public class LoginController {
 
         } else if (p2 instanceof Student) {
             //go to student panel
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/student-view.fxml")));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student-view.fxml"));
+            Parent root = loader.load();
             scene = new Scene(root);
+            StudentController controller = loader.getController();
             stage.setTitle("Student");
             stage.setScene(scene);
             stage.show();
+            controller.setStage();
         } else if (p2 instanceof Professor) {
             //go to professor panel
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/professor-view.fxml")));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/professor-view.fxml"));
+            Parent root = loader.load();
             scene = new Scene(root);
+            ProfessorController controller = loader.getController();
             stage.setTitle("Professor");
             stage.setScene(scene);
             stage.show();
+            controller.setStage();
         }
 
 

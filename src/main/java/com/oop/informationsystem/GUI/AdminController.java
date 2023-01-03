@@ -124,7 +124,6 @@ public class AdminController {
             }
         }
         profChoice.getItems().setAll(professorList);
-
     }
 
 

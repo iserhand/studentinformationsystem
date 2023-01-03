@@ -1,20 +1,42 @@
 package com.oop.informationsystem.GUI;
 
+import com.oop.informationsystem.Admin;
 import com.oop.informationsystem.Class;
+import com.oop.informationsystem.Professor;
+import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ProfessorController {
     public ListView todaysClassesList;
+    public AnchorPane anchorPane;
+    public Label dateAndTime;
+    Professor professor;
+    Stage stage;
 
-    @FXML
-    public void initialize() {
-        //National holidays list.
+    public void setStage() {
+        stage = (Stage) anchorPane.getScene().getWindow();
+        professor = (Professor) stage.getUserData();
+        populateTable();
+    }
+
+    private void populateTable() {
+        //TODO:Add a menu to submit  absenteeism for a student.
+        //TODO:Add a menu to show the notes and a + button to add a new note or - to remove one.
         String[] holidays = {"29/10", "23/04", "30/08"};
+        //National holidays list.
         List<String> holidaysList = Arrays.asList(holidays);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
         Date date = new Date();
@@ -46,7 +68,7 @@ public class ProfessorController {
                         ObjectInputStream objectInputStream
                                 = new ObjectInputStream(fileInputStream);
                         c = (Class) objectInputStream.readObject();
-                        if (c.getDaysOfWeek()[i - 2] == 1) {
+                        if (c.getDaysOfWeek()[i - 2] == 1 && c.getTeacher().getId().equals(professor.getId())) {
                             classList.add(c);
                         }
                         objectInputStream.close();
@@ -56,9 +78,23 @@ public class ProfessorController {
             }
             todaysClassesList.getItems().addAll(classList);
         }
+    }
+
+    @FXML
+    public void initialize() {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                dateAndTime.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+            }
+        };
+        timer.start();
 
 
-        //TODO:Add a menu to submit  absenteeism for a student.
-        //TODO:Add a menu to show the notes and a + button to add a new note or - to remove one.
+    }
+
+    public void submitAbsenteeism(ActionEvent event) {
+
+
     }
 }

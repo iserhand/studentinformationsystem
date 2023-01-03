@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Student extends Person implements Serializable {
     int absent;
+    List<Class> registeredClasses;
 
     public int getAbsent() {
         return absent;
@@ -25,6 +26,15 @@ public class Student extends Person implements Serializable {
 
     public Student(String id, String password, String name, String surname) {
         super(id, password, name, surname);
+        registeredClasses = new ArrayList<>();
         absent = 0;
+    }
+
+    public void setRegisteredClasses(List<Class> registeredClasses) {
+        this.registeredClasses = registeredClasses;
+    }
+
+    public List<Class> getRegisteredClasses() {
+        return registeredClasses;
     }
 }
