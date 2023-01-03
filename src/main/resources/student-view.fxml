@@ -7,28 +7,38 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.informationsystem.GUI.StudentController">
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.informationsystem.GUI.StudentController">
     <children>
-        <Label fx:id="dateAndTime" layoutX="393.0" layoutY="83.0" prefHeight="17.0" prefWidth="197.0" text="Date" />
-        <Button layoutX="513.0" layoutY="13.0" mnemonicParsing="false" onAction="#logOut" text="Log out" />
-        <Label layoutX="104.0" layoutY="183.0" text="Today's Classes" />
-        <ChoiceBox fx:id="registerChoiceBox" layoutX="366.0" layoutY="288.0" prefWidth="150.0" />
-        <Label layoutX="391.0" layoutY="241.0" text="Register for a class" />
-        <Button layoutX="411.0" layoutY="347.0" mnemonicParsing="false" onAction="#registerClass" text="Register" />
-        <Label fx:id="absenteeism" layoutX="391.0" layoutY="43.0" text="Absenteeism:" />
-        <ListView fx:id="myNotes" layoutY="43.0" prefHeight="129.0" prefWidth="306.0" />
-        <Label layoutX="119.0" layoutY="17.0" text="My Notes" />
-        <Button layoutX="322.0" layoutY="43.0" mnemonicParsing="false" onAction="#addNote" text="+" />
-        <Button layoutX="322.0" layoutY="79.0" mnemonicParsing="false" onAction="#removeNote" prefHeight="25.0" prefWidth="25.0" text="-" />
-        <Label fx:id="nameLabel" layoutX="391.0" layoutY="17.0" text="Welcome " />
+        <Label fx:id="dateAndTime" layoutX="364.0" layoutY="164.0" prefHeight="17.0" prefWidth="197.0" text="Date">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Label>
+        <Button layoutX="513.0" layoutY="13.0" mnemonicParsing="false" onAction="#logOut" text="Log out"/>
+        <Label layoutX="104.0" layoutY="183.0" text="Today's Classes"/>
+        <ChoiceBox onMouseClicked="#registerChoiceMouseClick" fx:id="registerChoiceBox" layoutX="366.0" layoutY="288.0"
+                   prefWidth="150.0"/>
+        <Label layoutX="391.0" layoutY="241.0" text="Register for a class"/>
+        <Button layoutX="411.0" layoutY="347.0" mnemonicParsing="false" onAction="#registerClass" text="Register"/>
+        <Label fx:id="absenteeism" layoutX="391.0" layoutY="43.0" text="Absenteeism:"/>
+        <ListView fx:id="myNotes" layoutY="43.0" prefHeight="129.0" prefWidth="306.0"/>
+        <Label layoutX="119.0" layoutY="17.0" text="My Notes"/>
+        <Button layoutX="322.0" layoutY="43.0" mnemonicParsing="false" onAction="#addNote" text="+"/>
+        <Button layoutX="322.0" layoutY="79.0" mnemonicParsing="false" onAction="#removeNote" prefHeight="25.0"
+                prefWidth="25.0" text="-"/>
+        <Label fx:id="nameLabel" layoutX="391.0" layoutY="17.0" text="Welcome "/>
         <TableView fx:id="todaysClasses" layoutY="201.0" prefHeight="200.0" prefWidth="306.0">
             <columns>
-                <TableColumn fx:id="classCodeColumn" editable="false" prefWidth="107.0" text="Class Code" />
-                <TableColumn fx:id="classroomColumn" editable="false" prefWidth="115.0" text="Classroom" />
-                <TableColumn fx:id="hourColumn" editable="false" prefWidth="82.0" text="Hour" />
+                <TableColumn fx:id="classCodeColumn" editable="false" prefWidth="107.0" text="Class Code"/>
+                <TableColumn fx:id="classroomColumn" editable="false" prefWidth="115.0" text="Classroom"/>
+                <TableColumn fx:id="hourColumn" editable="false" prefWidth="82.0" text="Hour"/>
             </columns>
         </TableView>
+        <Label fx:id="registerSuccess" layoutX="420.0" layoutY="324.0" text="Success" visible="false"
+               style="-fx-text-fill: lightgreen"/>
     </children>
 
 </AnchorPane>

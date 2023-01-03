@@ -19,10 +19,6 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         //Create admin on every start
         Admin admin = new Admin("admin", "123", "Serhan", "Desteli");
-        Student student = new Student("student", "123", "Serhan", "Desteli");
-        Professor professor = new Professor("professor", "123", "Serhan", "Desteli");
-        admin.createNewProfessor(professor);
-        admin.createNewStudent(student);
         admin.createNewAdmin(admin);
         stage.getIcons().add(new Image("https://img.icons8.com/ios-glyphs/30/null/student-center.png"));
         stage.setResizable(false);

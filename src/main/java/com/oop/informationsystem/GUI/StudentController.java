@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -36,6 +37,7 @@ public class StudentController {
     public TableColumn classroomColumn;
     public TableColumn hourColumn;
     public TableColumn classCodeColumn;
+    public Label registerSuccess;
     Stage stage;
     Student student;
 
@@ -61,6 +63,9 @@ public class StudentController {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         List<String> registeredClasses = student.getRegisteredClasses();
+        for (String rg : registeredClasses) {
+            System.out.println("???????????" + rg);
+        }
         int i = calendar.get(Calendar.DAY_OF_WEEK);
         if (holidaysList.contains(formatter.format(date))) {
             //Holiday TODO:Add holiday note
@@ -71,7 +76,6 @@ public class StudentController {
             Class c;
             List<Class> classList = new ArrayList<>();
             File f = new File("database/classes/");
-
             FilenameFilter textFilter = new FilenameFilter() {
                 public boolean accept(File dir, String name) {
                     return name.toLowerCase().endsWith(".txt");
@@ -128,7 +132,6 @@ public class StudentController {
                 }
             }
         }
-        List<String> studentsclasses = student.getRegisteredClasses();
         registerChoiceBox.getItems().addAll(classList);
     }
 
@@ -153,18 +156,16 @@ public class StudentController {
     public void registerClass(ActionEvent event) {
         //Register for a class from choice box
         if (registerChoiceBox.getSelectionModel().getSelectedItem().getClassCode().isBlank() || registerChoiceBox.getSelectionModel().getSelectedItem().getClassCode().isEmpty()) {
-            //TODO: Add warning here...
             return;
         }
-        //TODO: Add Success status UI here.
+        registerSuccess.setVisible(true);
         Class registeredClass = registerChoiceBox.getSelectionModel().getSelectedItem();
         List<String> classList = student.getRegisteredClasses();
         classList.add(registeredClass.getClassCode());
         student.setRegisteredClasses(classList);
-        List<Student> studList = registeredClass.getStudents();
-        studList.add(student);
+        List<String> studList = registeredClass.getStudents();
+        studList.add(student.getId());
         registeredClass.setStudents(studList);
-        registeredClass.updateTextFile();
         registerChoiceBox.getItems().remove(registeredClass);
         registerChoiceBox.setValue(null);
         populateTable();
@@ -222,5 +223,9 @@ public class StudentController {
         notes.remove(removeNote);
         student.setNotes(notes);
         myNotes.getItems().remove(removeNote);
+    }
+
+    public void registerChoiceMouseClick(MouseEvent mouseEvent) {
+        registerSuccess.setVisible(false);
     }
 }

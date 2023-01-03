@@ -13,7 +13,7 @@ public class Class implements Serializable {
     private int[] daysOfWeek = {0, 0, 0, 0, 0, 0, 0};
     private String classRoom;
     private String hour;
-    private List<Student> students;
+    private List<String> students;
 
     public Class(String className, String classCode, Professor teacher, int[] daysOfWeek, String classRoom, String hour) {
         students = new ArrayList<>();
@@ -23,6 +23,7 @@ public class Class implements Serializable {
         this.teacher = teacher;
         this.daysOfWeek = daysOfWeek;
         this.hour = hour;
+        updateTextFile();
     }
 
     public Professor getTeacher() {
@@ -31,6 +32,7 @@ public class Class implements Serializable {
 
     public void setTeacher(Professor teacher) {
         this.teacher = teacher;
+        updateTextFile();
     }
 
     public String getClassName() {
@@ -39,6 +41,7 @@ public class Class implements Serializable {
 
     public void setClassName(String className) {
         this.className = className;
+        updateTextFile();
     }
 
     public String getClassCode() {
@@ -47,6 +50,7 @@ public class Class implements Serializable {
 
     public void setClassCode(String classCode) {
         this.classCode = classCode;
+        updateTextFile();
     }
 
     public int[] getDaysOfWeek() {
@@ -55,6 +59,7 @@ public class Class implements Serializable {
 
     public void setDaysOfWeek(int[] daysOfWeek) {
         this.daysOfWeek = daysOfWeek;
+        updateTextFile();
     }
 
     public String getClassRoom() {
@@ -63,6 +68,7 @@ public class Class implements Serializable {
 
     public void setClassRoom(String classRoom) {
         this.classRoom = classRoom;
+        updateTextFile();
     }
 
     public String getHour() {
@@ -71,14 +77,17 @@ public class Class implements Serializable {
 
     public void setHour(String hour) {
         this.hour = hour;
+        updateTextFile();
     }
 
-    public List<Student> getStudents() {
+    public List<String> getStudents() {
         return students;
+
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(List<String> students) {
         this.students = students;
+        updateTextFile();
     }
 
 

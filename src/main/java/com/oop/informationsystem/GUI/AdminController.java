@@ -157,7 +157,6 @@ public class AdminController {
         List<Class> teaches = selectedProf.getTeaches();
         teaches.add(c);
         selectedProf.setTeaches(teaches);
-        c.updateTextFile();
         if (dontCreate) {
             //TODO:Add warning label here on top of the button
         } else {

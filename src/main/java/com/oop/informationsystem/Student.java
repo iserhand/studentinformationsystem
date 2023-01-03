@@ -17,6 +17,7 @@ public class Student extends Person implements Serializable {
 
     public void setAbsent(int absent) {
         this.absent = absent;
+        updateTextFile();
     }
 
     public List<String> getNotes() {
@@ -57,5 +58,10 @@ public class Student extends Person implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString() {
+        return super.getId();
     }
 }

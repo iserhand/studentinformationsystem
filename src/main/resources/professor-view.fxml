@@ -4,21 +4,40 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.informationsystem.GUI.ProfessorController">
     <children>
-        <ListView fx:id="todaysClassesList" layoutY="200.0" prefHeight="200.0" prefWidth="306.0"/>
-        <Label fx:id="dateAndTime" layoutX="178.0" layoutY="14.0" prefHeight="17.0" prefWidth="256.0"
-               text="Date and time"/>
-        <Label fx:id="d" layoutX="178.0" layoutY="50.0" prefHeight="17.0" prefWidth="256.0"
-               text="Date and time(note for weekend or holiday)"/>
+        <TableView fx:id="todaysClasses" layoutY="200.0" prefHeight="200.0" prefWidth="306.0">
+            <columns>
+                <TableColumn fx:id="classCodeColumn" editable="false" prefWidth="107.0" text="Class Code"/>
+                <TableColumn fx:id="classroomColumn" editable="false" prefWidth="115.0" text="Classroom"/>
+                <TableColumn fx:id="hourColumn" editable="false" prefWidth="82.0" text="Hour"/>
+            </columns>
+        </TableView>
+        <Button layoutX="513.0" layoutY="13.0" mnemonicParsing="false" onAction="#logOut" text="Log out"/>
+        <ListView fx:id="myNotes" layoutY="43.0" prefHeight="129.0" prefWidth="306.0"/>
+        <Label layoutX="119.0" layoutY="17.0" text="My Notes"/>
+        <Button layoutX="322.0" layoutY="43.0" mnemonicParsing="false" onAction="#addNote" text="+"/>
+        <Button layoutX="322.0" layoutY="79.0" mnemonicParsing="false" onAction="#removeNote" prefHeight="25.0"
+                prefWidth="25.0" text="-"/>
+        <Label fx:id="nameLabel" layoutX="391.0" layoutY="17.0" text="Welcome "/>
+        <Label fx:id="dateAndTime" layoutX="364.0" layoutY="164.0" prefHeight="17.0" prefWidth="197.0" text="Date">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Label>
         <Label layoutX="361.0" layoutY="228.0" prefHeight="17.0" prefWidth="200.0"
                text="Submit Absenteeism for Student"/>
         <Label layoutX="316.0" layoutY="271.0" text="Student ID"/>
-        <ChoiceBox fx:id="studS" layoutX="398.0" layoutY="267.0" prefWidth="150.0"/>
-        <Button onAction="#submitAbsenteeism" layoutX="398.0" layoutY="316.0" mnemonicParsing="false"
+        <ChoiceBox onAction="#studentSelectionChange" fx:id="studS" layoutX="398.0" layoutY="267.0" prefWidth="150.0"/>
+        <Button layoutX="399.0" layoutY="334.0" mnemonicParsing="false" onAction="#submitAbsenteeism"
                 text="Submit Absenteeism"/>
+        <TextField fx:id="absenteeismTxt" layoutX="399.0" layoutY="300.0" prefHeight="25.0" prefWidth="53.0"/>
     </children>
 </AnchorPane>
