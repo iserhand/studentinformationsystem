@@ -4,11 +4,12 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.informationsystem.GUI.StudentController">
     <children>
-        <ListView fx:id="todaysClassesList" layoutY="200.0" prefHeight="200.0" prefWidth="306.0" />
         <Label fx:id="dateAndTime" layoutX="393.0" layoutY="83.0" prefHeight="17.0" prefWidth="197.0" text="Date" />
         <Button layoutX="513.0" layoutY="13.0" mnemonicParsing="false" onAction="#logOut" text="Log out" />
         <Label layoutX="104.0" layoutY="183.0" text="Today's Classes" />
@@ -21,6 +22,13 @@
         <Button layoutX="322.0" layoutY="43.0" mnemonicParsing="false" onAction="#addNote" text="+" />
         <Button layoutX="322.0" layoutY="79.0" mnemonicParsing="false" onAction="#removeNote" prefHeight="25.0" prefWidth="25.0" text="-" />
         <Label fx:id="nameLabel" layoutX="391.0" layoutY="17.0" text="Welcome " />
+        <TableView fx:id="todaysClasses" layoutY="201.0" prefHeight="200.0" prefWidth="306.0">
+            <columns>
+                <TableColumn fx:id="classCodeColumn" editable="false" prefWidth="107.0" text="Class Code" />
+                <TableColumn fx:id="classroomColumn" editable="false" prefWidth="115.0" text="Classroom" />
+                <TableColumn fx:id="hourColumn" editable="false" prefWidth="82.0" text="Hour" />
+            </columns>
+        </TableView>
     </children>
 
 </AnchorPane>

@@ -11,8 +11,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -24,25 +26,31 @@ import java.util.*;
 
 public class StudentController {
 
-    public ListView todaysClassesList;
     public AnchorPane anchorPane;
     public Label dateAndTime;
     public Label absenteeism;
     public ChoiceBox<Class> registerChoiceBox;
     public ListView<String> myNotes;
     public Label nameLabel;
+    public TableView<Class> todaysClasses;
+    public TableColumn classroomColumn;
+    public TableColumn hourColumn;
+    public TableColumn classCodeColumn;
     Stage stage;
     Student student;
 
     public void setStage() {
         stage = (Stage) anchorPane.getScene().getWindow();
         student = (Student) stage.getUserData();
+        populateChoiceBox();
+        populateMyNotes();
         populateTable();
     }
 
     private void populateTable() {
-        populateChoiceBox();
-        populateMyNotes();
+        classroomColumn.setCellValueFactory(new PropertyValueFactory<Class, String>("classRoom"));
+        hourColumn.setCellValueFactory(new PropertyValueFactory<Class, String>("hour"));
+        classCodeColumn.setCellValueFactory(new PropertyValueFactory<Class, String>("classCode"));
         nameLabel.setText("Welcome " + student.getName());
         //National holidays list.
         absenteeism.setText("Absenteeism:" + student.getAbsent());
@@ -80,7 +88,7 @@ public class StudentController {
                         ObjectInputStream objectInputStream
                                 = new ObjectInputStream(fileInputStream);
                         c = (Class) objectInputStream.readObject();
-                        if (c.getDaysOfWeek()[i - 2] == 1 && registeredClasses.contains(c)) {
+                        if (c.getDaysOfWeek()[i - 2] == 1 && registeredClasses.contains(c.getClassCode())) {
                             classList.add(c);
                         }
                         objectInputStream.close();
@@ -88,10 +96,8 @@ public class StudentController {
                     }
                 }
             }
-            todaysClassesList.getItems().addAll(classList);
+            todaysClasses.getItems().addAll(classList);
         }
-        //TODO: Add a menu to check for absenteeism
-        //TODO:Add a menu to show the notes and a + button to add a new note or - to remove one.
     }
 
     private void populateChoiceBox() {
@@ -116,7 +122,6 @@ public class StudentController {
                     c = (Class) objectInputStream.readObject();
                     if (!student.getRegisteredClasses().contains(c.getClassCode())) {
                         classList.add(c);
-                        System.out.println("ekledik mk");
                     }
                     objectInputStream.close();
                 } catch (Exception ignored) {
@@ -159,12 +164,10 @@ public class StudentController {
         List<Student> studList = registeredClass.getStudents();
         studList.add(student);
         registeredClass.setStudents(studList);
-        student.updateTextFile();
         registeredClass.updateTextFile();
-
-        System.out.println("OK?" + registeredClass + student);
         registerChoiceBox.getItems().remove(registeredClass);
         registerChoiceBox.setValue(null);
+        populateTable();
 
     }
 
@@ -179,12 +182,14 @@ public class StudentController {
     }
 
     public void addNote(ActionEvent event) {
-        //TODO:Add new note pop up
         //POP UP
-        TextArea newNoteText = new TextArea();
+        TextField newNoteText = new TextField();
         Label noteAddedLabel = new Label("Successfully Added new Note!");
+        noteAddedLabel.setTextFill(Color.LIGHTGREEN);
+        noteAddedLabel.setDisable(true);
         noteAddedLabel.setVisible(false);
         newNoteText.setOnKeyTyped(event1 -> {
+            noteAddedLabel.setDisable(true);
             noteAddedLabel.setVisible(false);
         });
         Button okBtn = new Button("Add");
@@ -193,13 +198,12 @@ public class StudentController {
             List<String> notes = student.getNotes();
             notes.add(newNoteText.getText());
             student.setNotes(notes);
-            student.updateTextFile();
+            noteAddedLabel.setDisable(false);
             noteAddedLabel.setVisible(true);
-            System.out.println(student.getNotes().size());
             myNotes.getItems().add(newNoteText.getText());
         });
         VBox popupPane = new VBox();
-        popupPane.setStyle("-fx-alignment: center");
+        popupPane.setStyle("-fx-padding: 15px;-fx-alignment: center");
         popupPane.setSpacing(15);
         popupPane.getChildren().addAll(newNoteText, noteAddedLabel, okBtn);
 
@@ -213,7 +217,6 @@ public class StudentController {
     }
 
     public void removeNote(ActionEvent event) {
-        //TODO:Remove selected note
         String removeNote = myNotes.getSelectionModel().getSelectedItem();
         List<String> notes = student.getNotes();
         notes.remove(removeNote);

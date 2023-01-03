@@ -25,6 +25,7 @@ public class Student extends Person implements Serializable {
 
     public void setNotes(List<String> notes) {
         this.notes = notes;
+        updateTextFile();
     }
 
     public Student(String id, String password, String name, String surname) {
@@ -32,10 +33,12 @@ public class Student extends Person implements Serializable {
         registeredClasses = new ArrayList<>();
         notes = new ArrayList<>();
         absent = 0;
+        updateTextFile();
     }
 
     public void setRegisteredClasses(List<String> registeredClasses) {
         this.registeredClasses = registeredClasses;
+        updateTextFile();
     }
 
     public List<String> getRegisteredClasses() {

@@ -153,7 +153,7 @@ public class AdminController {
             daysOfWeek[3] = 1;
         if (fridayCheck.isSelected())
             daysOfWeek[4] = 1;
-        Class c = new Class(classNameTxt.getText(), classCodeTxt.getText(), selectedProf, daysOfWeek, classroomTxt.getText());
+        Class c = new Class(classNameTxt.getText(), classCodeTxt.getText(), selectedProf, daysOfWeek, classroomTxt.getText(), hourTxt.getText());
         List<Class> teaches = selectedProf.getTeaches();
         teaches.add(c);
         selectedProf.setTeaches(teaches);

@@ -15,13 +15,14 @@ public class Class implements Serializable {
     private String hour;
     private List<Student> students;
 
-    public Class(String className, String classCode, Professor teacher, int[] daysOfWeek, String classRoom) {
+    public Class(String className, String classCode, Professor teacher, int[] daysOfWeek, String classRoom, String hour) {
         students = new ArrayList<>();
         this.classRoom = classRoom;
         this.className = className;
         this.classCode = classCode;
         this.teacher = teacher;
         this.daysOfWeek = daysOfWeek;
+        this.hour = hour;
     }
 
     public Professor getTeacher() {
